@@ -53,6 +53,25 @@ namespace ExtraUtility
                 mVertexSet.ElementAt(v2).removeEdge(v1);
             }
         }
+        public override void deleteVertex(int v)
+        {
+            //get all of the edges to the vertice
+           
+            //remove nodes from other nodes
+            foreach(var vertex in mVertexSet)
+            {
+                if(vertex.vertexId() != v)
+                {
+                    vertex.removeEdge(v);
+                }
+            }
+            //find the node
+            Node node = mVertexSet.ElementAt(v);
+            //delete node
+            mVertexSet.Remove(node);
+            //decrease the ammout of vertices that are in the graph
+            mNumVertices--;
+        }
 
         public override IEnumerable<int> getNeighbors(int v)
         {
