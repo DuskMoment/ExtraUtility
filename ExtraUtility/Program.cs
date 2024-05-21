@@ -8,19 +8,30 @@ AdjGraph graph;
 
 graph = new AdjGraph(4, true);
 
-graph.addEdge(1, 3, 1);
+//graph.addVertex();
+
+
 graph.addEdge(1, 2, 1);
+graph.deleteVertex(0);
+graph.deleteVertex(2);
+graph.addEdge(1,3,1);
+
+graph.display();
+
+Console.WriteLine("Adding a tone of verteces");
+graph.addVertex();
+graph.addVertex();
+graph.addVertex();
+graph.addVertex();
+graph.addVertex();
 
 graph.display();
 
 
-//graph.deleteEdge(1,3);
-//Console.WriteLine("after 1,3 deletion");
+//Console.WriteLine("deleting a vertice");
+
+//graph.deleteVertex(1);
 //graph.display();
 
-graph.addEdge(3, 2, 1);
-graph.deleteVertex(2);
-Console.WriteLine("after deletion of a vertex (2)");
 
-graph.display();
 
