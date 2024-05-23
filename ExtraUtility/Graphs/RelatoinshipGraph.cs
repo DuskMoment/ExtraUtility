@@ -2,23 +2,23 @@
 
 namespace ExtraUtility.Graphs
 {
-    public class RelatoinshipGraph<T>
+    public class RelatoinshipGraph<TKey> where TKey : IEquatable<TKey>
     {
         private AdjGraph mGraph;
 
-        private Dictionary<T, int> mObjRelationship;
-        private Dictionary<int, T> mVertIDRelationShip;
+        private Dictionary<TKey, int> mObjRelationship;
+        private Dictionary<int, TKey> mVertIDRelationShip;
 
-        private List<T> mActiveObjects;
+        private List<TKey> mActiveObjects;
         public RelatoinshipGraph(bool isDirected = false)
         {
             mGraph = new AdjGraph(0, isDirected);
-            mObjRelationship = new Dictionary<T, int>();
-            mActiveObjects = new List<T>();
-            mVertIDRelationShip = new Dictionary<int, T>();
+            mObjRelationship = new Dictionary<TKey, int>();
+            mActiveObjects = new List<TKey>();
+            mVertIDRelationShip = new Dictionary<int, TKey>();
         }
         //MODIFY GRAPH
-        public void addVertex(T vertexObj)
+        public void addVertex(TKey vertexObj)
         {
             //add vertex id to the object
             int vertID = mGraph.addVertex();
@@ -30,7 +30,7 @@ namespace ExtraUtility.Graphs
 
 
         }
-        public void addEdge(T obj1, T obj2, int weight)
+        public void addEdge(TKey obj1, TKey obj2, int weight)
         {
             //check to see if objects are in the active list
             if (mActiveObjects.Contains(obj1) && mActiveObjects.Contains(obj2))
@@ -47,7 +47,7 @@ namespace ExtraUtility.Graphs
             }
 
         }
-        public void deleteVertex(T obj)
+        public void deleteVertex(TKey obj)
         {
             if (mActiveObjects.Contains(obj))
             {
@@ -64,7 +64,7 @@ namespace ExtraUtility.Graphs
                 mVertIDRelationShip.Remove(ID);
             }
         }
-        public void deleteEdge(T obj1, T obj2)
+        public void deleteEdge(TKey obj1, TKey obj2)
         {
             if (mActiveObjects.Contains(obj1) && mActiveObjects.Contains(obj2))
             {
@@ -88,7 +88,7 @@ namespace ExtraUtility.Graphs
         }
 
         //SEARCHING
-        public List<T> DFS(T objStart, T objGoal)
+        public List<TKey> DFS(TKey objStart, TKey objGoal)
         {
             //get the node path
             var path = mGraph.DFS(mObjRelationship[objStart], mObjRelationship[objGoal]);
@@ -98,7 +98,7 @@ namespace ExtraUtility.Graphs
 
         public void display()
         {
-            foreach (T vertObj in mActiveObjects)
+            foreach (TKey vertObj in mActiveObjects)
             {
                 var verts = mGraph.getNeighbors(mObjRelationship[vertObj]);
                 //out put the first realtionship
@@ -113,9 +113,9 @@ namespace ExtraUtility.Graphs
             }
 
         }
-        private List<T> convertNodeToObj(List<Node> nodes)
+        private List<TKey> convertNodeToObj(List<Node> nodes)
         {
-            List<T> objPath = new List<T>();
+            List<TKey> objPath = new List<TKey>();
 
             foreach (Node node in nodes)
             {
