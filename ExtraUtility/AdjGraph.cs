@@ -35,7 +35,16 @@ namespace ExtraUtility
             IDs.Sort();
 
             //get the smallest ID
-            lowestIDAvalible = IDs.Min();
+            if( IDs.Count > 0 ) 
+            {
+                lowestIDAvalible = IDs.Min();
+            }
+            else
+            {
+                //nothing was in in the empty
+                lowestIDAvalible = 1;
+            }
+            
 
             bool found = false;
 
@@ -49,7 +58,7 @@ namespace ExtraUtility
                 found = true;
             }
 
-            if(IDs.Count - 1 == IDs[IDs.Count - 1])
+            if(!found && IDs.Count - 1 == IDs[IDs.Count - 1])
             {
                 lowestIDAvalible = IDs.Count;
                 found = true;
@@ -65,7 +74,6 @@ namespace ExtraUtility
                 int index;
 
                 //try to fill the middle
-                //currently inf loop
                 while (true)
                 {
                     index = IDs.BinarySearch(half);
@@ -129,10 +137,7 @@ namespace ExtraUtility
                 throw new AggregateException("one or both of these vertices do not exist");
             }
 
-
             this.mVertexSet[v1].addEdge(v2);
-
-            
 
             //In an undirected graph all edges are bi-directional
             if (!this.mDirected)
@@ -219,6 +224,71 @@ namespace ExtraUtility
             List<int> IDs = new List<int>(this.mVertexSet.Keys);
 
             return IDs;
+        }
+
+        public List<Node> DFS(int startV, int goalV)
+        {
+            if(mDirected == false)
+            {
+                throw new Exception("cant prefrom a DFS on a bidirectional graph");
+            }
+
+            List<Node> visisted = new List<Node>();
+
+            Stack<Node> unexplored = new Stack<Node>();
+
+            //pop the first item
+            unexplored.Push(mVertexSet[startV]);
+
+            while (unexplored.Count > 0)
+            {
+                if(visisted.Contains(unexplored.Peek()))
+                {
+                    //if we have visited the thing take it out of the stack
+                    unexplored.Pop();
+
+                }
+                else
+                {
+                    Node node = unexplored.Pop();
+
+                    //get node id
+                    int ID = node.vertexId();
+
+                    //add the node to the visted list
+                    visisted.Add(node);
+
+                    //check to see if we found the node we are looking for
+                    if (ID == goalV)
+                    {
+                        //should return the path if we found the node
+                        return visisted;
+                    }
+                    //if we did not find take the neigboors and add it to the queue
+                    else
+                    {
+                        //node.getAdjacentVertices();
+                        foreach (var neighbor in node.getAdjacentVertices())
+                        {
+                            // get the vertice for the mevertex set and add it to the queue 
+                            unexplored.Push(mVertexSet[neighbor]);
+                        }
+
+
+                    }
+
+                }
+
+            }
+
+            //we did not find the thing
+            return new List<Node>();
+        }
+
+        //clear all nodes in the graph
+        public void clearGraph()
+        {
+            mVertexSet.Clear();
         }
     }
 }
