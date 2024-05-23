@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 
-//AFTER DELEING SOMTHING IT ADDS A VERTEX ONE TWO MANY :(
 namespace ExtraUtility
 {
     public class AdjGraph : GraphBase
@@ -23,6 +17,9 @@ namespace ExtraUtility
                 mVertexSet.Add(node.vertexId(), node);
             }
         }
+        
+        //GRAPH MODIFCATION FUNCTIONS
+        //adds a vertex at the next lowest id and returns that ID as a handle
         public int addVertex()
         {
             //find the lowest possable ID
@@ -41,7 +38,7 @@ namespace ExtraUtility
             }
             else
             {
-                //nothing was in in the empty
+                //the list was empty
                 lowestIDAvalible = 1;
             }
             
@@ -58,6 +55,7 @@ namespace ExtraUtility
                 found = true;
             }
 
+            //what was this if statment for again?
             if(!found && IDs.Count - 1 == IDs[IDs.Count - 1])
             {
                 lowestIDAvalible = IDs.Count;
@@ -177,7 +175,13 @@ namespace ExtraUtility
             //delete the target
             mVertexSet.Remove(v);
         }
+        //clear all nodes in the graph
+        public void clearGraph()
+        {
+            mVertexSet.Clear();
+        }
 
+        //EXTRA FUCNTIONS
         public override IEnumerable<int> getNeighbors(int v)
         {
             if (v < 0 || v >= this.numVertices)
@@ -193,39 +197,7 @@ namespace ExtraUtility
             return 1;
         }
 
-        public override void display()
-        {
-
-            for(int i = 0; numVertices > i; i++)
-            {
-                //make sure the key is in the dic
-                if (mVertexSet.ContainsKey(i)) 
-                {
-                    Node node = this.mVertexSet[i];
-                    //get the vertex Id
-                    Console.Write("vetex " + node.vertexId());
-
-                    var neigbors = node.getAdjacentVertices();
-
-                    foreach (var neigbor in neigbors)
-                    {
-                        //should just be a int
-                        Console.Write(" edges " + neigbor);
-                    }
-                    Console.WriteLine();
-                }
-                
-            }
-            
-        }
-
-        private List<int> createVertIDList()
-        {
-            List<int> IDs = new List<int>(this.mVertexSet.Keys);
-
-            return IDs;
-        }
-
+        //SEACHING FUNCTIONS
         public List<Node> DFS(int startV, int goalV)
         {
             if(mDirected == false)
@@ -284,11 +256,99 @@ namespace ExtraUtility
             //we did not find the thing
             return new List<Node>();
         }
-
-        //clear all nodes in the graph
-        public void clearGraph()
+        public List<Node> BFS(int startV, int goalV)
         {
-            mVertexSet.Clear();
+            if (mDirected == false)
+            {
+                throw new Exception("cant prefrom a DFS on a bidirectional graph");
+            }
+
+            List<Node> visisted = new List<Node>();
+
+            Queue<Node> unexplored = new Queue<Node>();
+
+            //pop the first item
+            unexplored.Enqueue(mVertexSet[startV]);
+
+            while (unexplored.Count > 0)
+            {
+                if (visisted.Contains(unexplored.Peek()))
+                {
+                    //if we have visited the thing take it out of the stack
+                    unexplored.Dequeue();
+
+                }
+                else
+                {
+                    Node node = unexplored.Dequeue();
+
+                    //get node id
+                    int ID = node.vertexId();
+
+                    //add the node to the visted list
+                    visisted.Add(node);
+
+                    //check to see if we found the node we are looking for
+                    if (ID == goalV)
+                    {
+                        //should return the path if we found the node
+                        return visisted;
+                    }
+                    //if we did not find take the neigboors and add it to the queue
+                    else
+                    {
+                        //node.getAdjacentVertices();
+                        foreach (var neighbor in node.getAdjacentVertices())
+                        {
+                            // get the vertice for the mevertex set and add it to the queue 
+                            unexplored.Enqueue(mVertexSet[neighbor]);
+                        }
+
+
+                    }
+
+                }
+
+            }
+
+            //we did not find the thing
+            return new List<Node>();
         }
+
+        //UTILTIY FUNCTIONS
+        public override void display()
+        {
+
+            for (int i = 0; numVertices > i; i++)
+            {
+                //make sure the key is in the dic
+                if (mVertexSet.ContainsKey(i))
+                {
+                    Node node = this.mVertexSet[i];
+                    //get the vertex Id
+                    Console.Write("vetex " + node.vertexId());
+
+                    var neigbors = node.getAdjacentVertices();
+
+                    foreach (var neigbor in neigbors)
+                    {
+                        //should just be a int
+                        Console.Write(" edges " + neigbor);
+                    }
+                    Console.WriteLine();
+                }
+
+            }
+
+        }
+
+        private List<int> createVertIDList()
+        {
+            List<int> IDs = new List<int>(this.mVertexSet.Keys);
+
+            return IDs;
+        }
+
+
     }
 }

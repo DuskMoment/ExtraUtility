@@ -6,7 +6,7 @@ Console.WriteLine("This is a gamer momnet");
 
 AdjGraph graph;
 
-graph = new AdjGraph(4, false);
+graph = new AdjGraph(4, true);
 
 //graph.addVertex();
 
@@ -42,17 +42,25 @@ graph.addVertex();
 
 graph.addEdge(0, 1, 1);
 graph.addEdge(0,2,1);
-//graph.addEdge(0, 3, 1);
+graph.addEdge(0, 3, 1);
 graph.addEdge(2, 4, 1);
 graph.addEdge(3, 2, 1);
 
-List<Node> test = graph.DFS(0, 4);
+List<Node> test = graph.DFS(4, 0);
 
 foreach(var ID in test)
 {
     Console.Write(ID.vertexId() + " -> ");
 }
 
+List<Node> test2 = graph.BFS(4, 0);
+
+Console.WriteLine("tesing BFS");
+
+foreach (var ID in test2)
+{
+    Console.Write(ID.vertexId() + " -> ");
+}
 
 //Console.WriteLine("deleting a vertice");
 
