@@ -101,11 +101,6 @@ namespace ExtraUtility
             }
 
 
-            //while (IDs.Contains(lowestIDAvalible) && !found) 
-            //{
-            //  lowestIDAvalible++;
-            //}
-
             //becasue we found the new lowest index we can make the node
             Node node  = new Node(lowestIDAvalible);
 

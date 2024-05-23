@@ -8,6 +8,56 @@ AdjGraph graph;
 
 graph = new AdjGraph(4, true);
 
+RelatoinshipGraph<string> graph2 = new RelatoinshipGraph<string>(true);
+
+//graph2.addVertex("A");
+//graph2.addVertex("B");
+//graph2.addVertex("C");
+//graph2.addVertex("D");
+
+//graph2.addEdge("A", "B", 1);
+
+//graph2.addEdge("A", "C", 1);
+//graph2.addEdge("C", "B", 1);
+
+//graph2.display();
+
+//Console.WriteLine("deleteing edge");
+//graph2.deleteEdge("C", "B");
+//graph2.deleteEdge("A", "C");
+
+//graph2.addEdge("C", "A", 1);
+
+//graph2.display();
+
+//Console.WriteLine("deleteing vertex");
+//graph2.deleteVertex("A");
+
+//graph2.display();
+
+Console.WriteLine("DFS search");
+
+graph2.addVertex("A");
+graph2.addVertex("B");
+graph2.addVertex("C");
+graph2.addVertex("D");
+graph2.addVertex("E");
+
+graph2.addEdge("A", "B", 1);
+graph2.addEdge("A", "C", 1);
+graph2.addEdge("A", "D", 1);
+graph2.addEdge("C", "E", 1);
+graph2.addEdge("D", "C", 1);
+
+List<string> test = graph2.DFS("A", "E");
+
+foreach (var ID in test)
+{
+    Console.Write(ID + " -> ");
+}
+
+graph2.display();
+
 //graph.addVertex();
 
 
@@ -27,40 +77,40 @@ graph = new AdjGraph(4, true);
 
 //graph.display();
 
-Console.WriteLine("clearing graph");
+//Console.WriteLine("clearing graph");
 
-graph.clearGraph();
-graph.display();
+//graph.clearGraph();
+//graph.display();
 
-Console.WriteLine("tesing DFS");
+//Console.WriteLine("tesing DFS");
 
-graph.addVertex();
-graph.addVertex();
-graph.addVertex();
-graph.addVertex();
-graph.addVertex();
+//graph.addVertex();
+//graph.addVertex();
+//graph.addVertex();
+//graph.addVertex();
+//graph.addVertex();
 
-graph.addEdge(0, 1, 1);
-graph.addEdge(0,2,1);
-graph.addEdge(0, 3, 1);
-graph.addEdge(2, 4, 1);
-graph.addEdge(3, 2, 1);
+//graph.addEdge(0, 1, 1);
+//graph.addEdge(0,2,1);
+//graph.addEdge(0, 3, 1);
+//graph.addEdge(2, 4, 1);
+//graph.addEdge(3, 2, 1);
 
-List<Node> test = graph.DFS(4, 0);
+//List<Node> test = graph.DFS(4, 0);
 
-foreach(var ID in test)
-{
-    Console.Write(ID.vertexId() + " -> ");
-}
+//foreach(var ID in test)
+//{
+//    Console.Write(ID.vertexId() + " -> ");
+//}
 
-List<Node> test2 = graph.BFS(4, 0);
+//List<Node> test2 = graph.BFS(4, 0);
 
-Console.WriteLine("tesing BFS");
+//Console.WriteLine("tesing BFS");
 
-foreach (var ID in test2)
-{
-    Console.Write(ID.vertexId() + " -> ");
-}
+//foreach (var ID in test2)
+//{
+//    Console.Write(ID.vertexId() + " -> ");
+//}
 
 //Console.WriteLine("deleting a vertice");
 
