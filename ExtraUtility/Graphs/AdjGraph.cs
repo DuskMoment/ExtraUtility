@@ -1,23 +1,24 @@
 ﻿using System.Diagnostics;
+using ExtraUtility.Structures;
 
-namespace ExtraUtility
+namespace ExtraUtility.Graphs
 {
     public class AdjGraph : GraphBase
     {
         private Dictionary<int, Node> mVertexSet;
 
-        public AdjGraph(int numVertices,bool directed = false ): base(numVertices, directed) 
+        public AdjGraph(int numVertices, bool directed = false) : base(numVertices, directed)
         {
-            this.mVertexSet = new Dictionary<int, Node>();
+            mVertexSet = new Dictionary<int, Node>();
 
             // add nodes to the set
-            for(int i = 0; i < numVertices; i++) 
+            for (int i = 0; i < numVertices; i++)
             {
                 Node node = new Node(i);
                 mVertexSet.Add(node.vertexId(), node);
             }
         }
-        
+
         //GRAPH MODIFCATION FUNCTIONS
         //adds a vertex at the next lowest id and returns that ID as a handle
         public int addVertex()
@@ -32,7 +33,7 @@ namespace ExtraUtility
             IDs.Sort();
 
             //get the smallest ID
-            if( IDs.Count > 0 ) 
+            if (IDs.Count > 0)
             {
                 lowestIDAvalible = IDs.Min();
             }
@@ -41,7 +42,7 @@ namespace ExtraUtility
                 //the list was empty
                 lowestIDAvalible = 1;
             }
-            
+
 
             bool found = false;
 
@@ -49,14 +50,14 @@ namespace ExtraUtility
 
             int temp = lowestIDAvalible - 1;
 
-            if(temp >= 0)
+            if (temp >= 0)
             {
                 lowestIDAvalible--;
                 found = true;
             }
 
             //what was this if statment for again?
-            if(!found && IDs.Count - 1 == IDs[IDs.Count - 1])
+            if (!found && IDs.Count - 1 == IDs[IDs.Count - 1])
             {
                 lowestIDAvalible = IDs.Count;
                 found = true;
@@ -68,7 +69,7 @@ namespace ExtraUtility
                 Debug.Assert(IDs[0] == 0);
 
                 //seach for the half way point
-                int half = (IDs[IDs.Count - 1]) / 2;
+                int half = IDs[IDs.Count - 1] / 2;
                 int index;
 
                 //try to fill the middle
@@ -89,9 +90,9 @@ namespace ExtraUtility
                     }
                     else if (index == half)
                     {
-                        half = ((IDs[IDs.Count - 1]) - index) / 2;
+                        half = (IDs[IDs.Count - 1] - index) / 2;
                         //above
-                        if(half == index)
+                        if (half == index)
                         {
                             half++;
                         }
@@ -102,7 +103,7 @@ namespace ExtraUtility
 
 
             //becasue we found the new lowest index we can make the node
-            Node node  = new Node(lowestIDAvalible);
+            Node node = new Node(lowestIDAvalible);
 
             mVertexSet.Add(node.vertexId(), node);
             mNumVertices++;
@@ -125,48 +126,48 @@ namespace ExtraUtility
             //catches if a user is placing one or more vertices that do not exist
             List<int> VertIDs = createVertIDList();
 
-            if(!VertIDs.Contains(v1) || !VertIDs.Contains(v2))
+            if (!VertIDs.Contains(v1) || !VertIDs.Contains(v2))
             {
                 throw new AggregateException("one or both of these vertices do not exist");
             }
 
-            this.mVertexSet[v1].addEdge(v2);
+            mVertexSet[v1].addEdge(v2);
 
             //In an undirected graph all edges are bi-directional
-            if (!this.mDirected)
-            { 
-                this.mVertexSet[v2].addEdge(v1);
+            if (!mDirected)
+            {
+                mVertexSet[v2].addEdge(v1);
             }
         }
         public override void deleteEdge(int v1, int v2)
         {
-           
+
             mVertexSet[v1].removeEdge(v2);
 
             //if it is NOT dircted we need to delete the other connection
-            if(!this.mDirected)
+            if (!mDirected)
             {
-                
+
                 mVertexSet[v2].removeEdge(v1);
             }
         }
         public override void deleteVertex(int v)
         {
             //vist each vertex in the map then see if it has a connection to the target vertex
-            foreach(var vertex in mVertexSet)
+            foreach (var vertex in mVertexSet)
             {
                 Node node = vertex.Value;
                 var nuem = node.getAdjacentVertices();
 
-                foreach(var edge in nuem) 
+                foreach (var edge in nuem)
                 {
-                    if(edge == v)
+                    if (edge == v)
                     {
                         node.removeEdge(edge);
                     }
                 }
             }
-            
+
             //delete the target
             mVertexSet.Remove(v);
         }
@@ -179,12 +180,12 @@ namespace ExtraUtility
         //EXTRA FUCNTIONS
         public override IEnumerable<int> getNeighbors(int v)
         {
-            if (v < 0 || v >= this.numVertices)
+            if (v < 0 || v >= numVertices)
             {
                 throw new ArgumentOutOfRangeException("Cannot access vertex");
             }
 
-            return this.mVertexSet[v].getAdjacentVertices();
+            return mVertexSet[v].getAdjacentVertices();
         }
 
         public override int getEdgeWeight(int v1, int v2)
@@ -195,7 +196,7 @@ namespace ExtraUtility
         //SEACHING FUNCTIONS
         public List<Node> DFS(int startV, int goalV)
         {
-            if(mDirected == false)
+            if (mDirected == false)
             {
                 throw new Exception("cant prefrom a DFS on a bidirectional graph");
             }
@@ -209,7 +210,7 @@ namespace ExtraUtility
 
             while (unexplored.Count > 0)
             {
-                if(visisted.Contains(unexplored.Peek()))
+                if (visisted.Contains(unexplored.Peek()))
                 {
                     //if we have visited the thing take it out of the stack
                     unexplored.Pop();
@@ -319,7 +320,7 @@ namespace ExtraUtility
                 //make sure the key is in the dic
                 if (mVertexSet.ContainsKey(i))
                 {
-                    Node node = this.mVertexSet[i];
+                    Node node = mVertexSet[i];
                     //get the vertex Id
                     Console.Write("vetex " + node.vertexId());
 
@@ -339,7 +340,7 @@ namespace ExtraUtility
 
         private List<int> createVertIDList()
         {
-            List<int> IDs = new List<int>(this.mVertexSet.Keys);
+            List<int> IDs = new List<int>(mVertexSet.Keys);
 
             return IDs;
         }

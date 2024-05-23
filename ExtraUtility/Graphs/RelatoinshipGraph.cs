@@ -1,24 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ExtraUtility.Structures;
 
-namespace ExtraUtility
+namespace ExtraUtility.Graphs
 {
     public class RelatoinshipGraph<T>
     {
         private AdjGraph mGraph;
 
-        private Dictionary<T,int> mObjRelationship;
+        private Dictionary<T, int> mObjRelationship;
         private Dictionary<int, T> mVertIDRelationShip;
 
         private List<T> mActiveObjects;
-        public RelatoinshipGraph(bool isDirected = false) 
+        public RelatoinshipGraph(bool isDirected = false)
         {
-            
             mGraph = new AdjGraph(0, isDirected);
             mObjRelationship = new Dictionary<T, int>();
             mActiveObjects = new List<T>();
@@ -40,7 +33,7 @@ namespace ExtraUtility
         public void addEdge(T obj1, T obj2, int weight)
         {
             //check to see if objects are in the active list
-            if(mActiveObjects.Contains(obj1) && mActiveObjects.Contains(obj2))
+            if (mActiveObjects.Contains(obj1) && mActiveObjects.Contains(obj2))
             {
                 //get the ids
                 int vertID1 = mObjRelationship[obj1];
@@ -52,11 +45,11 @@ namespace ExtraUtility
             {
                 throw new Exception("One or more of the objects are not in the activeList");
             }
-           
+
         }
         public void deleteVertex(T obj)
         {
-            if(mActiveObjects.Contains(obj))
+            if (mActiveObjects.Contains(obj))
             {
                 mActiveObjects.Remove(obj);
 
@@ -73,7 +66,7 @@ namespace ExtraUtility
         }
         public void deleteEdge(T obj1, T obj2)
         {
-            if(mActiveObjects.Contains(obj1) && mActiveObjects.Contains(obj2))
+            if (mActiveObjects.Contains(obj1) && mActiveObjects.Contains(obj2))
             {
                 int idToDelete1 = mObjRelationship[obj1];
                 int idToDelete2 = mObjRelationship[obj2];
@@ -84,14 +77,21 @@ namespace ExtraUtility
             {
                 throw new Exception("One or more of the objects are not in the activeList");
             }
-            
+
+        }
+        public void clearGraph()
+        {
+            mGraph.clearGraph();
+            mActiveObjects.Clear();
+            mObjRelationship.Clear();
+            mVertIDRelationShip.Clear();
         }
 
         //SEARCHING
-        public List<T> DFS(T objStart, T objGoal) 
+        public List<T> DFS(T objStart, T objGoal)
         {
             //get the node path
-           var path = mGraph.DFS(mObjRelationship[objStart], mObjRelationship[objGoal]);
+            var path = mGraph.DFS(mObjRelationship[objStart], mObjRelationship[objGoal]);
 
             return convertNodeToObj(path);
         }

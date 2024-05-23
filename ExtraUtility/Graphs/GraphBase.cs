@@ -4,18 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExtraUtility
+namespace ExtraUtility.Graphs
 {
     public abstract class GraphBase
     {
-       
+
         protected readonly bool mDirected;
         protected int mNumVertices;
 
-        public GraphBase(int numVertices,bool directed = false)
+        public GraphBase(int numVertices, bool directed = false)
         {
-            this.mNumVertices = numVertices;
-            this.mDirected = directed;
+            mNumVertices = numVertices;
+            mDirected = directed;
         }
         public abstract void addEdge(int v1, int v2, int weight);
 

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExtraUtility
+namespace ExtraUtility.Structures
 {
     public class Node
     {
@@ -13,32 +13,32 @@ namespace ExtraUtility
 
         public Node(int vertexId)
         {
-            this.mVertexId = vertexId;
+            mVertexId = vertexId;
             mAdjacencySet = new HashSet<int>();
         }
 
-        public void addEdge(int v) 
+        public void addEdge(int v)
         {
-            if(this.mVertexId == v)
+            if (mVertexId == v)
             {
                 throw new ArgumentException("The vertex cannot be adjacent to itself");
             }
-            this.mAdjacencySet.Add(v);
+            mAdjacencySet.Add(v);
         }
 
-        public void removeEdge(int v) 
+        public void removeEdge(int v)
         {
             mAdjacencySet.Remove(v);
         }
 
-        public HashSet<int> getAdjacentVertices() 
+        public HashSet<int> getAdjacentVertices()
         {
-            return this.mAdjacencySet;
+            return mAdjacencySet;
         }
 
         public int vertexId()
         {
-            return this.mVertexId;
+            return mVertexId;
         }
     }
 }

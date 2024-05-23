@@ -1,5 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
-using ExtraUtility;
+using ExtraUtility.Graphs;
 
 Console.WriteLine("Hello, World!");
 Console.WriteLine("This is a gamer momnet");
