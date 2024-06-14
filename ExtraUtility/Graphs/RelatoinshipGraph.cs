@@ -20,6 +20,12 @@ namespace ExtraUtility.Graphs
         //MODIFY GRAPH
         public void addVertex(TKey vertexObj)
         {
+            //we had the obejct already
+            if (mActiveObjects.Contains(vertexObj))
+            {
+                return;
+            }
+
             //add vertex id to the object
             int vertID = mGraph.addVertex();
             mObjRelationship[vertexObj] = vertID;

@@ -10,6 +10,11 @@ graph = new AdjGraph(4, true);
 
 RelatoinshipGraph<string> graph2 = new RelatoinshipGraph<string>(true);
 
+graph2.addVertex("A");
+graph2.addVertex("A");
+
+graph2.display();
+
 //graph2.addVertex("A");
 //graph2.addVertex("B");
 //graph2.addVertex("C");
@@ -35,28 +40,28 @@ RelatoinshipGraph<string> graph2 = new RelatoinshipGraph<string>(true);
 
 //graph2.display();
 
-Console.WriteLine("DFS search");
+//Console.WriteLine("DFS search");
 
-graph2.addVertex("A");
-graph2.addVertex("B");
-graph2.addVertex("C");
-graph2.addVertex("D");
-graph2.addVertex("E");
+//graph2.addVertex("A");
+//graph2.addVertex("B");
+//graph2.addVertex("C");
+//graph2.addVertex("D");
+//graph2.addVertex("E");
 
-graph2.addEdge("A", "B", 1);
-graph2.addEdge("A", "C", 1);
-graph2.addEdge("A", "D", 1);
-graph2.addEdge("C", "E", 1);
-graph2.addEdge("D", "C", 1);
+//graph2.addEdge("A", "B", 1);
+//graph2.addEdge("A", "C", 1);
+//graph2.addEdge("A", "D", 1);
+//graph2.addEdge("C", "E", 1);
+//graph2.addEdge("D", "C", 1);
 
-List<string> test = graph2.DFS("A", "E");
+//List<string> test = graph2.DFS("A", "E");
 
-foreach (var ID in test)
-{
-    Console.Write(ID + " -> ");
-}
+//foreach (var ID in test)
+//{
+//    Console.Write(ID + " -> ");
+//}
 
-graph2.display();
+//graph2.display();
 
 //graph.addVertex();
 
