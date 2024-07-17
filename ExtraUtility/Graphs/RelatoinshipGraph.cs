@@ -36,7 +36,7 @@ namespace ExtraUtility.Graphs
 
 
         }
-        public void addEdge(TKey obj1, TKey obj2, int weight)
+        public void addEdge(TKey obj1, TKey obj2, int weight = 1)
         {
             //check to see if objects are in the active list
             if (mActiveObjects.Contains(obj1) && mActiveObjects.Contains(obj2))

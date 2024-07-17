@@ -1,5 +1,20 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using ExtraUtility.Graphs;
+using System.Diagnostics;
+
+
+void testFunction(List<string> test)
+{
+    if (test.Count != 0)
+    {
+        Console.WriteLine("FOUND PATH");
+    }
+    else
+    {
+        Console.WriteLine("DID NOT FIND PATH");
+    }
+
+}
 
 Console.WriteLine("Hello, World!");
 Console.WriteLine("This is a gamer momnet");
@@ -8,12 +23,27 @@ AdjGraph graph;
 
 graph = new AdjGraph(4, true);
 
-RelatoinshipGraph<string> graph2 = new RelatoinshipGraph<string>(true);
+RelatoinshipGraph<string> graph2 = new RelatoinshipGraph<string>();
 
 graph2.addVertex("A");
-graph2.addVertex("A");
+graph2.addVertex("B");
+graph2.addVertex("C");
+graph2.addVertex("D");
+
+//connect graph
+
+//graph2.addEdge("A", "C", 1);
+graph2.addEdge("C", "B", 1);
+graph2.addEdge("C", "B", 1);
+graph2.addEdge("A", "D", 1);
+
+
 
 graph2.display();
+
+List<string> test = graph2.DFS("B", "C");
+
+testFunction(test);
 
 //graph2.addVertex("A");
 //graph2.addVertex("B");

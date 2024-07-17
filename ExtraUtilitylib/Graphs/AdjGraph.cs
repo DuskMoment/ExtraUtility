@@ -115,7 +115,7 @@ namespace ExtraUtilitylib.Graphs
             //return the lowestID
             return lowestIDAvalible;
         }
-        public override void addEdge(int v1, int v2, int weight)
+        public override void addEdge(int v1, int v2, int weight = 1)
         {
             //if (v1 >= this.numVertices || v2 >= this.numVertices || v1 < 0 || v2 < 0)
             //{
@@ -258,10 +258,10 @@ namespace ExtraUtilitylib.Graphs
         }
         public List<Node> BFS(int startV, int goalV)
         {
-            if (mDirected == false)
-            {
-                throw new Exception("cant prefrom a DFS on a bidirectional graph");
-            }
+            //if (mDirected == false)
+            //{
+            //    throw new Exception("cant prefrom a DFS on a bidirectional graph");
+            //}
 
             List<Node> visisted = new List<Node>();
 

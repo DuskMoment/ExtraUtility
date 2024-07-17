@@ -196,10 +196,10 @@ namespace ExtraUtility.Graphs
         //SEACHING FUNCTIONS
         public List<Node> DFS(int startV, int goalV)
         {
-            if (mDirected == false)
-            {
-                throw new Exception("cant prefrom a DFS on a bidirectional graph");
-            }
+            //if (mDirected == false)
+            //{
+            //    throw new Exception("cant prefrom a DFS on a bidirectional graph");
+            //}
 
             List<Node> visisted = new List<Node>();
 
