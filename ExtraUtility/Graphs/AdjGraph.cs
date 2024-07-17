@@ -118,10 +118,10 @@ namespace ExtraUtility.Graphs
             //    throw new ArgumentOutOfRangeException("Vertices are out of bounds");
             //}
 
-            if (weight != 1)
-            {
-                throw new ArgumentException("An adjacency set cannot represent non-one edge weights");
-            }
+            //if (weight != 1)
+            //{
+            //    throw new ArgumentException("An adjacency set cannot represent non-one edge weights");
+            //}
 
             //catches if a user is placing one or more vertices that do not exist
             List<int> VertIDs = createVertIDList();
@@ -131,12 +131,12 @@ namespace ExtraUtility.Graphs
                 throw new AggregateException("one or both of these vertices do not exist");
             }
 
-            mVertexSet[v1].addEdge(v2);
+            mVertexSet[v1].addEdge(v2, weight);
 
             //In an undirected graph all edges are bi-directional
             if (!mDirected)
             {
-                mVertexSet[v2].addEdge(v1);
+                mVertexSet[v2].addEdge(v1, weight);
             }
         }
         public override void deleteEdge(int v1, int v2)
@@ -161,9 +161,9 @@ namespace ExtraUtility.Graphs
 
                 foreach (var edge in nuem)
                 {
-                    if (edge == v)
+                    if (edge.Key == v)
                     {
-                        node.removeEdge(edge);
+                        node.removeEdge(edge.Key);
                     }
                 }
             }
@@ -178,7 +178,7 @@ namespace ExtraUtility.Graphs
         }
 
         //EXTRA FUCNTIONS
-        public override IEnumerable<int> getNeighbors(int v)
+        public override IEnumerable<KeyValuePair<int,int>> getNeighbors(int v)
         {
             if (v < 0 || v >= numVertices)
             {
@@ -239,7 +239,7 @@ namespace ExtraUtility.Graphs
                         foreach (var neighbor in node.getAdjacentVertices())
                         {
                             // get the vertice for the mevertex set and add it to the queue 
-                            unexplored.Push(mVertexSet[neighbor]);
+                            unexplored.Push(mVertexSet[neighbor.Key]);
                         }
 
 
@@ -297,7 +297,7 @@ namespace ExtraUtility.Graphs
                         foreach (var neighbor in node.getAdjacentVertices())
                         {
                             // get the vertice for the mevertex set and add it to the queue 
-                            unexplored.Enqueue(mVertexSet[neighbor]);
+                            unexplored.Enqueue(mVertexSet[neighbor.Key]);
                         }
 
 
@@ -329,7 +329,7 @@ namespace ExtraUtility.Graphs
                     foreach (var neigbor in neigbors)
                     {
                         //should just be a int
-                        Console.Write(" edges " + neigbor);
+                        Console.Write(" edges " + neigbor.Key + " weight " + neigbor.Value);
                     }
                     Console.WriteLine();
                 }

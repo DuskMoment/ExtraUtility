@@ -23,7 +23,7 @@ AdjGraph graph;
 
 graph = new AdjGraph(4, true);
 
-RelatoinshipGraph<string> graph2 = new RelatoinshipGraph<string>();
+RelatoinshipGraph<string> graph2 = new RelatoinshipGraph<string>(true);
 
 graph2.addVertex("A");
 graph2.addVertex("B");
@@ -32,16 +32,16 @@ graph2.addVertex("D");
 
 //connect graph
 
-//graph2.addEdge("A", "C", 1);
-graph2.addEdge("C", "B", 1);
-graph2.addEdge("C", "B", 1);
-graph2.addEdge("A", "D", 1);
+//graph2.addEdge("A", "C", 11);
+graph2.addEdge("C", "B", 10);
+
+//graph2.addEdge("A", "D", 12);
 
 
 
 graph2.display();
 
-List<string> test = graph2.DFS("B", "C");
+List<string> test = graph2.DFS("B", "A");
 
 testFunction(test);
 

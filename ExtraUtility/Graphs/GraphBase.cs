@@ -17,7 +17,7 @@
 
         public abstract void deleteVertex(int v);
 
-        public abstract IEnumerable<int> getNeighbors(int v);
+        public abstract IEnumerable<KeyValuePair<int,int>> getNeighbors(int v);
 
         public abstract int getEdgeWeight(int v1, int v2);
 

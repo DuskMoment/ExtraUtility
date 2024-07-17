@@ -113,7 +113,7 @@ namespace ExtraUtility.Graphs
 
                 foreach (var v in verts)
                 {
-                    Console.Write(mVertIDRelationShip[v]);
+                    Console.Write(mVertIDRelationShip[v.Key] + " weight: " + v.Value + " ");
                 }
                 Console.WriteLine();
             }
