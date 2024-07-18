@@ -28,6 +28,15 @@ namespace ExtraUtility.Structures
 
         public void removeEdge(int v)
         {
+            foreach(var weight in mEdgeWeight) 
+            {
+                //found the thing to delete
+                if(weight.Key == v)
+                {
+                    mEdgeWeight.Remove(weight);
+                    break;
+                }
+            }
             mAdjacencySet.Remove(v);
         }
 

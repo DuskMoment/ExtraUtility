@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using ExtraUtility.Graphs;
+using ExtraUtility.Structures;
 using System.Diagnostics;
 
 
@@ -16,6 +17,20 @@ void testFunction(List<string> test)
 
 }
 
+void testPath(List<string> test)
+{
+    if(test.Count == 0)
+    {
+        Console.WriteLine("DID NOT FIND PATH");
+    }
+    foreach(var t in test)
+    {
+        Console.WriteLine(t);
+    }
+
+}
+
+
 Console.WriteLine("Hello, World!");
 Console.WriteLine("This is a gamer momnet");
 
@@ -23,7 +38,7 @@ AdjGraph graph;
 
 graph = new AdjGraph(4, true);
 
-RelatoinshipGraph<string> graph2 = new RelatoinshipGraph<string>(true);
+RelatoinshipGraph<string> graph2 = new RelatoinshipGraph<string>(false);
 
 graph2.addVertex("A");
 graph2.addVertex("B");
@@ -32,18 +47,24 @@ graph2.addVertex("D");
 
 //connect graph
 
-//graph2.addEdge("A", "C", 11);
-graph2.addEdge("C", "B", 10);
+graph2.addEdge("A", "D", 1);
+graph2.addEdge("A", "C", 4);
+graph2.addEdge("D", "C", 2);
+graph2.addEdge("C", "B", 1);
 
-//graph2.addEdge("A", "D", 12);
+//graph2.deleteEdge("C","B");
+graph2.deleteVertex("C");
+
 
 
 
 graph2.display();
 
 List<string> test = graph2.DFS("B", "A");
+List<string> test2 = graph2.Dijkstra("A", "B");
 
 testFunction(test);
+testPath(test2);
 
 //graph2.addVertex("A");
 //graph2.addVertex("B");

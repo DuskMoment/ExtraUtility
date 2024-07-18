@@ -101,6 +101,12 @@ namespace ExtraUtility.Graphs
 
             return convertNodeToObj(path);
         }
+        public List<TKey> Dijkstra(TKey objStart, TKey objGoal) 
+        {
+            var path = mGraph.dijkstra(mObjRelationship[objStart], mObjRelationship[objGoal]);
+
+            return convertNodeToObj(path);
+        }
 
         public void display()
         {

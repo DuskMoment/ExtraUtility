@@ -1,5 +1,8 @@
 ﻿using System.Diagnostics;
+using System.Numerics;
+using System.Reflection.Metadata.Ecma335;
 using ExtraUtility.Structures;
+using System.Collections.Generic;
 
 namespace ExtraUtility.Graphs
 {
@@ -178,7 +181,7 @@ namespace ExtraUtility.Graphs
         }
 
         //EXTRA FUCNTIONS
-        public override IEnumerable<KeyValuePair<int,int>> getNeighbors(int v)
+        public override IEnumerable<KeyValuePair<int, int>> getNeighbors(int v)
         {
             if (v < 0 || v >= numVertices)
             {
@@ -194,8 +197,63 @@ namespace ExtraUtility.Graphs
         }
 
         //SEACHING FUNCTIONS
+
+        public List<Node> dijkstra(int startV, int goalV)
+        {
+            //create a queue with the pair as key value (key:vertID, val:weight)
+            PriorityQueue<int, int> minHeap = new PriorityQueue<int, int>();
+
+            List<int> vistedVerts = new List<int>();
+            List<Node> path = new List<Node>();
+
+            //get first vertex
+            Node startNode = mVertexSet[startV];
+
+            //get all of the neighbors
+            List<KeyValuePair<int, int>> neigbors = startNode.getAdjacentVertices();
+
+            //for each neighbor add it to the queue with the vertId as the element and the weight as the compaitor 
+            foreach (var neighbor in neigbors)
+            {
+                minHeap.Enqueue(neighbor.Key, neighbor.Value);
+            }
+            vistedVerts.Add(startV);
+            //start of loop
+            while (minHeap.Count > 0)
+            {
+                //get the next lowest vertex from the queue
+                int vert = minHeap.Dequeue();
+
+                if (vert == goalV)
+                {
+                    return path;
+                }
+
+                //check to see if we have already been here
+                else if (!vistedVerts.Contains(vert))
+                {
+                    //we have not visited it
+                    var newVerts = mVertexSet[vert].getAdjacentVertices();
+                    //then add it to the queue
+                    foreach (var newVert in newVerts)
+                    {
+                        minHeap.Enqueue(newVert.Key, newVert.Value);
+                    }
+
+                    //then add current node to path and say we have visted it 
+                    path.Add(mVertexSet[vert]);
+                    vistedVerts.Add(vert);
+                }
+
+
+            }
+
+            //found nothing :/
+            return new List<Node>();
+        }
         public List<Node> DFS(int startV, int goalV)
         {
+
             //if (mDirected == false)
             //{
             //    throw new Exception("cant prefrom a DFS on a bidirectional graph");
