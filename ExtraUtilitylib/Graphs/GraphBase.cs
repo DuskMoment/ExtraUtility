@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace ExtraUtilitylib.Graphs
+namespace ExtraUtility.Graphs
 {
     public abstract class GraphBase
     {
@@ -21,7 +19,7 @@ namespace ExtraUtilitylib.Graphs
 
         public abstract void deleteVertex(int v);
 
-        public abstract IEnumerable<int> getNeighbors(int v);
+        public abstract IEnumerable<KeyValuePair<int, int>> getNeighbors(int v);
 
         public abstract int getEdgeWeight(int v1, int v2);
 

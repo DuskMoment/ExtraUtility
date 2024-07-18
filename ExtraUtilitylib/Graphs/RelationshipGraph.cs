@@ -1,11 +1,10 @@
-﻿using ExtraUtilitylib.Structures;
-using System;
+﻿using ExtraUtility.Structures;
 using System.Collections.Generic;
-using System.Text;
+using System;
 
-namespace ExtraUtilitylib.Graphs
+namespace ExtraUtility.Graphs
 {
-    public class RelatoinshipGraph<TKey>
+    public class RelatoinshipGraph<TKey> where TKey : IEquatable<TKey>
     {
         private AdjGraph mGraph;
 
@@ -28,6 +27,7 @@ namespace ExtraUtilitylib.Graphs
             {
                 return;
             }
+
             //add vertex id to the object
             int vertID = mGraph.addVertex();
             mObjRelationship[vertexObj] = vertID;
@@ -38,7 +38,7 @@ namespace ExtraUtilitylib.Graphs
 
 
         }
-        public void addEdge(TKey obj1, TKey obj2, int weight)
+        public void addEdge(TKey obj1, TKey obj2, int weight = 1)
         {
             //check to see if objects are in the active list
             if (mActiveObjects.Contains(obj1) && mActiveObjects.Contains(obj2))
@@ -103,6 +103,12 @@ namespace ExtraUtilitylib.Graphs
 
             return convertNodeToObj(path);
         }
+        //public List<TKey> Dijkstra(TKey objStart, TKey objGoal)
+        //{
+        //    var path = mGraph.dijkstra(mObjRelationship[objStart], mObjRelationship[objGoal]);
+
+        //    return convertNodeToObj(path);
+        //}
 
         public void display()
         {
@@ -115,7 +121,7 @@ namespace ExtraUtilitylib.Graphs
 
                 foreach (var v in verts)
                 {
-                    Console.Write(mVertIDRelationShip[v]);
+                    Console.Write(mVertIDRelationShip[v.Key] + " weight: " + v.Value + " ");
                 }
                 Console.WriteLine();
             }

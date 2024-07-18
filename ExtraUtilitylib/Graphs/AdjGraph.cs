@@ -1,11 +1,11 @@
-﻿using ExtraUtilitylib.Structures;
-using System;
+﻿using System.Diagnostics;
+using System.Numerics;
+using ExtraUtility.Structures;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
+using System;
 
-namespace ExtraUtilitylib.Graphs
+namespace ExtraUtility.Graphs
 {
     public class AdjGraph : GraphBase
     {
@@ -115,17 +115,17 @@ namespace ExtraUtilitylib.Graphs
             //return the lowestID
             return lowestIDAvalible;
         }
-        public override void addEdge(int v1, int v2, int weight = 1)
+        public override void addEdge(int v1, int v2, int weight)
         {
             //if (v1 >= this.numVertices || v2 >= this.numVertices || v1 < 0 || v2 < 0)
             //{
             //    throw new ArgumentOutOfRangeException("Vertices are out of bounds");
             //}
 
-            if (weight != 1)
-            {
-                throw new ArgumentException("An adjacency set cannot represent non-one edge weights");
-            }
+            //if (weight != 1)
+            //{
+            //    throw new ArgumentException("An adjacency set cannot represent non-one edge weights");
+            //}
 
             //catches if a user is placing one or more vertices that do not exist
             List<int> VertIDs = createVertIDList();
@@ -135,12 +135,12 @@ namespace ExtraUtilitylib.Graphs
                 throw new AggregateException("one or both of these vertices do not exist");
             }
 
-            mVertexSet[v1].addEdge(v2);
+            mVertexSet[v1].addEdge(v2, weight);
 
             //In an undirected graph all edges are bi-directional
             if (!mDirected)
             {
-                mVertexSet[v2].addEdge(v1);
+                mVertexSet[v2].addEdge(v1, weight);
             }
         }
         public override void deleteEdge(int v1, int v2)
@@ -165,9 +165,9 @@ namespace ExtraUtilitylib.Graphs
 
                 foreach (var edge in nuem)
                 {
-                    if (edge == v)
+                    if (edge.Key == v)
                     {
-                        node.removeEdge(edge);
+                        node.removeEdge(edge.Key);
                     }
                 }
             }
@@ -182,7 +182,7 @@ namespace ExtraUtilitylib.Graphs
         }
 
         //EXTRA FUCNTIONS
-        public override IEnumerable<int> getNeighbors(int v)
+        public override IEnumerable<KeyValuePair<int, int>> getNeighbors(int v)
         {
             if (v < 0 || v >= numVertices)
             {
@@ -198,12 +198,67 @@ namespace ExtraUtilitylib.Graphs
         }
 
         //SEACHING FUNCTIONS
+
+        //public List<Node> dijkstra(int startV, int goalV)
+        //{
+        //    //create a queue with the pair as key value (key:vertID, val:weight)
+        //    PriorityQueue<int, int> minHeap = new PriorityQueue<int, int>();
+
+        //    List<int> vistedVerts = new List<int>();
+        //    List<Node> path = new List<Node>();
+
+        //    //get first vertex
+        //    Node startNode = mVertexSet[startV];
+
+        //    //get all of the neighbors
+        //    List<KeyValuePair<int, int>> neigbors = startNode.getAdjacentVertices();
+
+        //    //for each neighbor add it to the queue with the vertId as the element and the weight as the compaitor 
+        //    foreach (var neighbor in neigbors)
+        //    {
+        //        minHeap.Enqueue(neighbor.Key, neighbor.Value);
+        //    }
+        //    vistedVerts.Add(startV);
+        //    //start of loop
+        //    while (minHeap.Count > 0)
+        //    {
+        //        //get the next lowest vertex from the queue
+        //        int vert = minHeap.Dequeue();
+
+        //        if (vert == goalV)
+        //        {
+        //            return path;
+        //        }
+
+        //        //check to see if we have already been here
+        //        else if (!vistedVerts.Contains(vert))
+        //        {
+        //            //we have not visited it
+        //            var newVerts = mVertexSet[vert].getAdjacentVertices();
+        //            //then add it to the queue
+        //            foreach (var newVert in newVerts)
+        //            {
+        //                minHeap.Enqueue(newVert.Key, newVert.Value);
+        //            }
+
+        //            //then add current node to path and say we have visted it 
+        //            path.Add(mVertexSet[vert]);
+        //            vistedVerts.Add(vert);
+        //        }
+
+
+        //    }
+
+        //    //found nothing :/
+        //    return new List<Node>();
+        //}
         public List<Node> DFS(int startV, int goalV)
         {
-            if (mDirected == false)
-            {
-                throw new Exception("cant prefrom a DFS on a bidirectional graph");
-            }
+
+            //if (mDirected == false)
+            //{
+            //    throw new Exception("cant prefrom a DFS on a bidirectional graph");
+            //}
 
             List<Node> visisted = new List<Node>();
 
@@ -243,7 +298,7 @@ namespace ExtraUtilitylib.Graphs
                         foreach (var neighbor in node.getAdjacentVertices())
                         {
                             // get the vertice for the mevertex set and add it to the queue 
-                            unexplored.Push(mVertexSet[neighbor]);
+                            unexplored.Push(mVertexSet[neighbor.Key]);
                         }
 
 
@@ -258,10 +313,10 @@ namespace ExtraUtilitylib.Graphs
         }
         public List<Node> BFS(int startV, int goalV)
         {
-            //if (mDirected == false)
-            //{
-            //    throw new Exception("cant prefrom a DFS on a bidirectional graph");
-            //}
+            if (mDirected == false)
+            {
+                throw new Exception("cant prefrom a DFS on a bidirectional graph");
+            }
 
             List<Node> visisted = new List<Node>();
 
@@ -301,7 +356,7 @@ namespace ExtraUtilitylib.Graphs
                         foreach (var neighbor in node.getAdjacentVertices())
                         {
                             // get the vertice for the mevertex set and add it to the queue 
-                            unexplored.Enqueue(mVertexSet[neighbor]);
+                            unexplored.Enqueue(mVertexSet[neighbor.Key]);
                         }
 
 
@@ -333,7 +388,7 @@ namespace ExtraUtilitylib.Graphs
                     foreach (var neigbor in neigbors)
                     {
                         //should just be a int
-                        Console.Write(" edges " + neigbor);
+                        Console.Write(" edges " + neigbor.Key + " weight " + neigbor.Value);
                     }
                     Console.WriteLine();
                 }
@@ -348,5 +403,7 @@ namespace ExtraUtilitylib.Graphs
 
             return IDs;
         }
+
+
     }
 }

@@ -43,7 +43,8 @@ RelatoinshipGraph<string> graph2 = new RelatoinshipGraph<string>(false);
 graph2.addVertex("A");
 graph2.addVertex("B");
 graph2.addVertex("C");
-graph2.addVertex("D");
+graph2.addVertex("D"); 
+graph2.addVertex("E");
 
 //connect graph
 
@@ -51,9 +52,10 @@ graph2.addEdge("A", "D", 1);
 graph2.addEdge("A", "C", 4);
 graph2.addEdge("D", "C", 2);
 graph2.addEdge("C", "B", 1);
+graph2.addEdge("C", "E", 4);
 
-//graph2.deleteEdge("C","B");
-graph2.deleteVertex("C");
+graph2.deleteEdge("C","B");
+//graph2.deleteVertex("C");
 
 
 
@@ -61,7 +63,7 @@ graph2.deleteVertex("C");
 graph2.display();
 
 List<string> test = graph2.DFS("B", "A");
-List<string> test2 = graph2.Dijkstra("A", "B");
+List<string> test2 = graph2.Dijkstra("A", "E");
 
 testFunction(test);
 testPath(test2);
