@@ -201,7 +201,7 @@ namespace ExtraUtility.Graphs
         public List<Node> dijkstra(int startV, int goalV)
         {
             //create a queue with the pair as key value (key:vertID, val:weight)
-            PriorityQueue<int, int> minHeap = new PriorityQueue<int, int>();
+            ExtraUtility.Structures.PriorityQueue<int, int> minHeap = new ExtraUtility.Structures.PriorityQueue<int, int>();
 
             List<int> vistedVerts = new List<int>();
             List<Node> path = new List<Node>();
@@ -215,17 +215,18 @@ namespace ExtraUtility.Graphs
             //for each neighbor add it to the queue with the vertId as the element and the weight as the compaitor 
             foreach (var neighbor in neigbors)
             {
-                minHeap.Enqueue(neighbor.Key, neighbor.Value);
+                minHeap.enqueue(neighbor.Value, neighbor.Key);
             }
             vistedVerts.Add(startV);
             //start of loop
-            while (minHeap.Count > 0)
+            while (!minHeap.isEmpty)
             {
                 //get the next lowest vertex from the queue
-                int vert = minHeap.Dequeue();
+                int vert = minHeap.dequeueValue();
 
                 if (vert == goalV)
                 {
+                    path.Add(mVertexSet[vert]);
                     return path;
                 }
 
@@ -237,7 +238,7 @@ namespace ExtraUtility.Graphs
                     //then add it to the queue
                     foreach (var newVert in newVerts)
                     {
-                        minHeap.Enqueue(newVert.Key, newVert.Value);
+                        minHeap.enqueue(newVert.Value, newVert.Key);
                     }
 
                     //then add current node to path and say we have visted it 

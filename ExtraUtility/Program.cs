@@ -25,7 +25,7 @@ void testPath(List<string> test)
     }
     foreach(var t in test)
     {
-        Console.WriteLine(t);
+        Console.WriteLine("Path FOund " + t);
     }
 
 }
@@ -43,18 +43,17 @@ RelatoinshipGraph<string> graph2 = new RelatoinshipGraph<string>(false);
 graph2.addVertex("A");
 graph2.addVertex("B");
 graph2.addVertex("C");
-graph2.addVertex("D"); 
+graph2.addVertex("D");
 graph2.addVertex("E");
 
 //connect graph
 
+graph2.addEdge("A", "B", 2);
 graph2.addEdge("A", "D", 1);
-graph2.addEdge("A", "C", 4);
-graph2.addEdge("D", "C", 2);
-graph2.addEdge("C", "B", 1);
-graph2.addEdge("C", "E", 4);
-
-graph2.deleteEdge("C","B");
+graph2.addEdge("B", "C", 2);
+graph2.addEdge("C", "E", 3);
+graph2.addEdge("D", "E", 1);
+//graph2.deleteEdge("C","B");
 //graph2.deleteVertex("C");
 
 
@@ -67,6 +66,28 @@ List<string> test2 = graph2.Dijkstra("A", "E");
 
 testFunction(test);
 testPath(test2);
+
+
+ExtraUtility.Structures.PriorityQueue<int, string> pro = new ExtraUtility.Structures.PriorityQueue<int, string>();
+
+pro.enqueue(0, "A");
+pro.enqueue(2, "B");
+pro.enqueue(4, "C");
+pro.enqueue(1, "D");
+pro.enqueue(14, "E");
+
+pro.display();
+
+
+Console.WriteLine(pro.peekValue());
+
+pro.dequeueValue();
+
+pro.display();
+
+//Console.WriteLine(prio.getMax());
+//prio.extractMax();
+
 
 //graph2.addVertex("A");
 //graph2.addVertex("B");
